@@ -1,9 +1,10 @@
 # Poverty-mapping
 Poverty mapping in three African cities - Lagos, Accra and Nairobi
 This scripts build a machine learning model based on contextual features and urban atrributies to map poverty. 
+We take advantage of Google Colab for this task heavy processing. 
 
 ## Getting started
-These instruction will help you get started  on replicating the methodology. 
+These instruction will help you get started on replicating the methodology. 
 
 ## Required packages for the model 
 In additon to Python 3, the following packages are needed to run the scripts in this repository.

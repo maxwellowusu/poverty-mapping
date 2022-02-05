@@ -7,7 +7,7 @@ We take advantage of Google Colab for this task heavy processing.
 These instruction will help you get started on replicating the methodology. 
 
 ## Required packages for the model 
-In additon to Python 3, the following packages are needed to run the scripts in this repository.
+In addition to Python 3, the following packages are needed to run the scripts in this repository.
 
 sklearn <br />
 torch <br />

@@ -7,10 +7,7 @@
 import geowombat as gw
 import matplotlib.pyplot as plt
 import geopandas as gpd
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.pipeline import Pipeline
 from sklearn.decomposition import PCA
-from sklearn_xarray.preprocessing import Featurizer
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.cluster import KMeans
 from geowombat.ml import fit
@@ -28,33 +25,38 @@ from sklearn.model_selection import RandomizedSearchCV
 from sklearn.ensemble import RandomForestClassifier 
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
-import matplotlib.pyplot as plt
 
 from sklearn.pipeline import Pipeline
 from sklearn.decomposition import PCA
-from sklearn_xarray.preprocessing import Featurizer
+# from sklearn_xarray.preprocessing import Featurizer
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 # %matplotlib inline
 
 
-filelist = sorted(glob("/CCAS/groups/engstromgrp/max/Capstone/accra/accra_spfeas_10m/*/*.tif"))
-fp = './data/trainset_1.geojson'
+filelist = sorted(glob(r"/lustre/groups/engstromgrp/max/accra_DIPA/accra_spfeas_10m/*/*.tif"))
+fp = r"/lustre/groups/engstromgrp/max/accra_DIPA/TR17.geojson"
 
 
 fp_rast = filelist
+print(fp_rast)
+
 filename_list = []
 for file in filelist:
   head, tail = os.path.split(file)
   filenames=tail[:-4]
   filename_list.append(filenames)
+print(filename_list)
+
 with gw.open(fp_rast, stack_dim="band", band_names=filename_list) as src:
             df = src.gw.extract(fp,
                        band_names=src.band.values.tolist())
 
-df.head()
+
+output_csv = "/lustre/groups/engstromgrp/max/accra_DIPA/output/sf_fea.csv"
+df.to_csv(output_csv, sep=',', header=True)
 
 x = df[filename_list]
-y = df['ClassID']
+y = df['C_type17']
 
 from sklearn.model_selection import train_test_split
 # split the data with 75% in training set
@@ -62,11 +64,11 @@ X_train, X_test, y_train, y_test = train_test_split( x, y,
                                   random_state=0,
                                   train_size=0.75)
 
-# Use a data pipeline
-pl = Pipeline([('featurizer', Featurizer()),
-                ('scaler', StandardScaler()),
-#                 ('pca', PCA(n_components = 2)),
-                ('rf', RandomForestClassifier(n_estimators=1000, max_depth=500, max_features='auto', min_samples_split=3))])
+# # Use a data pipeline
+# pl = Pipeline([('featurizer', Featurizer()),
+#                 ('scaler', StandardScaler()),
+# #                 ('pca', PCA(n_components = 2)),
+#                 ('rf', RandomForestClassifier(n_estimators=1000, max_depth=500, max_features='auto', min_samples_split=3))])
 
 
 #printing the accuracy metrics
